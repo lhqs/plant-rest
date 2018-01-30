@@ -4,7 +4,9 @@ import cn.lhqs.model.DataInfo;
 import cn.lhqs.model.DataInfoExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface DataInfoMapper {
 
     long countByExample(DataInfoExample example);
@@ -38,4 +40,12 @@ public interface DataInfoMapper {
      * 获取指定条数的数据
      */
     List<DataInfo> getDataInfoForNum();
+
+    /**
+     * 获取当前最近的一条数据
+     * @return
+     */
+    DataInfo getRealData();
+
+
 }

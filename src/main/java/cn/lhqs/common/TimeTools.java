@@ -1,10 +1,18 @@
 package cn.lhqs.common;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.TimeZone;
 
 
 /**
- * 时间工具类， 用于时间的格式化及計算處理
+ * author : lhqs
+ * description : 时间工具类， 用于时间的格式化及計算處理
+ * createTime : 2017-10-24 16:09
+ * version : 1.0
  */
 public class TimeTools {
     public static final String DATE_TYPE1 = "yyyy-MM-dd HH:mm:ss";
@@ -43,4 +51,30 @@ public class TimeTools {
     public static final String DATE_TYPE20 = "HHmmssSSS";
 
     public static TimeZone timeZoneChina = TimeZone.getTimeZone("Asia/Shanghai");// 获取时区
+
+    /**
+     * 将date转化为指定格式的字符串
+     * @param date
+     * @param dataType 格式类型
+     * @return
+     */
+    public static String dateFormat(Date date, String dataType){
+        Instant instant = date.toInstant();
+        ZoneId zone = ZoneId.systemDefault();
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, zone);
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(dataType);
+        return localDateTime.format(dtf);
+    }
+
+    public static LocalDateTime dataTypeTransform( String timeStr,String formatTime){
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(formatTime);
+        return LocalDateTime.parse(timeStr,df);
+    }
+
+    public static String dateFormatNow( String dataType){
+        LocalDateTime localDateTime = LocalDateTime.now();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(dataType);
+        return localDateTime.format(dtf);
+    }
+
 }

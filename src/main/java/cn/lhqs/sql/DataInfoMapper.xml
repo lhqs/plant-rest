@@ -253,4 +253,13 @@
     from data_info
     ORDER BY update_time desc LIMIT 14
   </select>
+
+  <select id="getRealData" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from data_info
+    ORDER by update_time desc LIMIT 1
+  </select>
+
+
 </mapper>

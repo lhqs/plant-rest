@@ -13,6 +13,11 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_name" jdbcType="VARCHAR" property="updateName" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+
+    <result column="sensor_one" jdbcType="VARCHAR" property="sensorOne" />
+    <result column="sensor_two" jdbcType="VARCHAR" property="sensorTwo" />
+    <result column="sensor_three" jdbcType="VARCHAR" property="sensorThree" />
+
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -74,7 +79,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, auth_id, username, password, status, mobile_phone, email, create_name, create_time, 
-    update_name, update_time
+    update_name, update_time,sensor_one, sensor_two, sensor_three
   </sql>
   <select id="selectByExample" parameterType="cn.lhqs.model.MembershipInfoExample" resultMap="BaseResultMap">
     select
@@ -100,6 +105,14 @@
     delete from membership_info
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  <delete id="deleteByAuthId">
+    DELETE from membership_info
+    where auth_id = #{authId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByAuthIdSensor">
+    DELETE from limit_sensor
+    where auth_id = #{authId,jdbcType=VARCHAR}
+  </delete>
   <delete id="deleteByExample" parameterType="cn.lhqs.model.MembershipInfoExample">
     delete from membership_info
     <if test="_parameter != null">
@@ -120,9 +133,6 @@
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="cn.lhqs.model.MembershipInfo">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into membership_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="authId != null">
@@ -137,6 +147,17 @@
       <if test="status != null">
         status,
       </if>
+
+      <if test="homeDir != null">
+        home_dir,
+      </if>
+      <if test="orgName != null">
+        org_name,
+      </if>
+      <if test="imageUrl != null">
+        image_url,
+      </if>
+
       <if test="mobilePhone != null">
         mobile_phone,
       </if>
@@ -169,6 +190,17 @@
       <if test="status != null">
         #{status,jdbcType=BIT},
       </if>
+
+      <if test="homeDir != null">
+        #{homeDir,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null">
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="imageUrl != null">
+        #{imageUrl,jdbcType=VARCHAR},
+      </if>
+
       <if test="mobilePhone != null">
         #{mobilePhone,jdbcType=VARCHAR},
       </if>
@@ -253,6 +285,33 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+  <update id="updateByPrimaryKeySensorLimit" parameterType="cn.lhqs.model.MembershipInfo">
+    update limit_sensor
+    <set>
+      <if test="sensorOne != null">
+        sensor_one = #{sensorOne,jdbcType=VARCHAR},
+      </if>
+      <if test="sensorTwo != null">
+        sensor_two = #{sensorTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="sensorThree != null">
+        sensor_three = #{sensorThree,jdbcType=VARCHAR},
+      </if>
+      <if test="createName != null">
+        create_name = #{createName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateName != null">
+        update_name = #{updateName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where auth_id = #{authId,jdbcType=VARCHAR}
+  </update>
   <update id="updateByPrimaryKeySelective" parameterType="cn.lhqs.model.MembershipInfo">
     update membership_info
     <set>
@@ -304,10 +363,16 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="getAllMembershipInfo" resultMap="BaseResultMap">
+  <select id="getAllMembershipInfo" resultType="cn.lhqs.model.MembershipInfo">
     select
-       <include refid="Base_Column_List"/>
-    from membership_info
+       m.id as id, m.auth_id as authId, m.username as username, m.password as password, m.status as status,
+       m.mobile_phone as mobilePhone, m.email as email, m.create_name as createName, m.create_time as createTime,
+      m.update_name as updateName, m.update_time as updateTime,s.sensor_one as sensorOne, s.sensor_two as sensorTwo,
+      s.sensor_three as sensorThree,m.home_dir as homeDir, m.org_name as orgName, m.image_url as imageUrl
+    from membership_info m,
+    limit_sensor s
+    WHERE
+      m.auth_id = s.auth_id
 
   </select>
 
@@ -329,9 +394,102 @@
   <select id="getUserCount" resultType="java.lang.Integer">
     SELECT
     count(*)
-    FROM membership_info
+    FROM membership_info m
     WHERE
+    m.status = 1 and
       username = #{username,jdbcType=VARCHAR}
 
+  </select>
+
+  <select id="selectUserDatails" parameterType="cn.lhqs.model.MembershipInfo" resultType="cn.lhqs.model.MembershipInfo">
+    SELECT
+    username,
+    sensor_one AS sensorOne,
+    sensor_two AS sensorTwo,
+    sensor_three AS sensorThree,
+    home_dir AS homeDir,
+    org_name as orgName,
+    image_url as imageUrl
+    FROM
+    membership_info m,
+    limit_sensor s
+    WHERE
+    m.`status` = 1
+    AND m.auth_id = s.auth_id
+    <if test="username != null">
+      and username = #{username,jdbcType=VARCHAR}
+    </if>
+    <if test="password != null">
+      and password = #{password,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+  <insert id="insertSensorLimit" parameterType="cn.lhqs.model.MembershipInfo">
+    insert into limit_sensor
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="authId != null">
+        auth_id,
+      </if>
+      <if test="sensorOne != null">
+        sensor_one,
+      </if>
+      <if test="sensorTwo != null">
+        sensor_two,
+      </if>
+      <if test="sensorThree != null">
+        sensor_three,
+      </if>
+      <if test="createName != null">
+        create_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateName != null">
+        update_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="authId != null">
+        #{authId,jdbcType=VARCHAR},
+      </if>
+      <if test="sensorOne != null">
+        #{sensorOne,jdbcType=VARCHAR},
+      </if>
+      <if test="sensorTwo != null">
+        #{sensorTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="sensorThree != null">
+        #{sensorThree,jdbcType=VARCHAR},
+      </if>
+      <if test="createName != null">
+        #{createName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateName != null">
+        #{updateName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="selectMembershipInfoByUsername" resultType="cn.lhqs.model.MembershipInfo">
+    select
+       m.id as id, m.auth_id as authId, m.username as username, m.password as password, m.status as status,
+       m.mobile_phone as mobilePhone, m.email as email, m.create_name as createName, m.create_time as createTime,
+      m.update_name as updateName, m.update_time as updateTime,s.sensor_one as sensorOne, s.sensor_two as sensorTwo,
+       s.sensor_three as sensorThree
+    from membership_info m,
+    limit_sensor s
+    WHERE
+      m.auth_id = s.auth_id
+      and username LIKE CONCAT(CONCAT('%', #{username}), '%')
   </select>
 </mapper>

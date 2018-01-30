@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * 全局异常处理类
+ * author : lhqs
+ * description : 全局异常处理类
+ * createTime : 2017-10-24 16:03
+ * version : 1.0
  */
-
 @RestControllerAdvice
 public class ExceptionHandle {
     Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -23,7 +25,6 @@ public class ExceptionHandle {
      * 处理意想不到的运行时异常
      * @param request
      * @param ex
-
      */
     @ExceptionHandler({RuntimeException.class})
     public ResponseResult handleRuntimeException(HttpServletRequest request,

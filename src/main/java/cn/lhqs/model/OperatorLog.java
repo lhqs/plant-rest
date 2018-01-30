@@ -3,9 +3,6 @@ package cn.lhqs.model;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * @author 
- */
 public class OperatorLog implements Serializable {
     private Integer id;
 

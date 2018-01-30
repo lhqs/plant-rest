@@ -1,12 +1,13 @@
 package cn.lhqs.common;
 
-
 import java.io.Serializable;
 
 /**
- * 通用返回数据格式
+ * author : lhqs
+ * description : 通用返回数据格式
+ * createTime : 2017-10-24 16:09
+ * version : 1.0
  */
-
 /*@JsonInclude(Include.NON_NULL)*/
 public class ResponseResult implements Serializable{
     private static final long serialVersionUID = -3100630958373978641L;

@@ -12,7 +12,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.Resource;
 import java.util.List;
 
-
+/**
+ * author : lhqs
+ * description : test
+ * createTime : 2017-12-19 19:07
+ * version : 1.0
+ */
 @RunWith(value = SpringJUnit4ClassRunner.class) // 添加spring测试方案
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 public class FirstTest {

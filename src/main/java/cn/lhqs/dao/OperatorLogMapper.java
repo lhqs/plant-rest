@@ -4,12 +4,19 @@ import cn.lhqs.model.OperatorLog;
 import cn.lhqs.model.OperatorLogExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface OperatorLogMapper {
     long countByExample(OperatorLogExample example);
 
     int deleteByExample(OperatorLogExample example);
 
+    /**
+     * 移除操作日志记录
+     * @param id
+     * @return
+     */
     int deleteByPrimaryKey(Integer id);
 
     int insert(OperatorLog record);

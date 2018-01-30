@@ -3,9 +3,6 @@ package cn.lhqs.model;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * @author 
- */
 public class MembershipInfo implements Serializable {
     private Integer id;
 
@@ -18,7 +15,7 @@ public class MembershipInfo implements Serializable {
     /**
      * 1:有效   0：无效
      */
-    private Boolean status;
+    private int status;
 
     private String mobilePhone;
 
@@ -31,6 +28,65 @@ public class MembershipInfo implements Serializable {
     private String updateName;
 
     private Date updateTime;
+
+
+    private String sensorOne;
+    private String sensorTwo;
+    private String sensorThree;
+
+    private String orgName;
+
+    private String homeDir;
+    private String imageUrl;
+
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getOrgName() {
+        return orgName;
+    }
+
+    public void setOrgName(String orgName) {
+        this.orgName = orgName;
+    }
+
+    public String getHomeDir() {
+        return homeDir;
+    }
+
+    public void setHomeDir(String homeDir) {
+        this.homeDir = homeDir;
+    }
+
+    public String getSensorOne() {
+        return sensorOne;
+    }
+
+    public void setSensorOne(String sensorOne) {
+        this.sensorOne = sensorOne;
+    }
+
+    public String getSensorTwo() {
+        return sensorTwo;
+    }
+
+    public void setSensorTwo(String sensorTwo) {
+        this.sensorTwo = sensorTwo;
+    }
+
+    public String getSensorThree() {
+        return sensorThree;
+    }
+
+    public void setSensorThree(String sensorThree) {
+        this.sensorThree = sensorThree;
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -66,11 +122,11 @@ public class MembershipInfo implements Serializable {
         this.password = password;
     }
 
-    public Boolean getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -120,5 +176,28 @@ public class MembershipInfo implements Serializable {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "MembershipInfo{" +
+                "id=" + id +
+                ", authId='" + authId + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", status=" + status +
+                ", mobilePhone='" + mobilePhone + '\'' +
+                ", email='" + email + '\'' +
+                ", createName='" + createName + '\'' +
+                ", createTime=" + createTime +
+                ", updateName='" + updateName + '\'' +
+                ", updateTime=" + updateTime +
+                ", sensorOne='" + sensorOne + '\'' +
+                ", sensorTwo='" + sensorTwo + '\'' +
+                ", sensorThree='" + sensorThree + '\'' +
+                ", orgName='" + orgName + '\'' +
+                ", homeDir='" + homeDir + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                '}';
     }
 }

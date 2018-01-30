@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lhqs.dao.NodeZeroMapper">
+    <resultMap id="BaseResultMap" type="cn.lhqs.model.NodeZero">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="pid" jdbcType="INTEGER" property="pid"/>
+        <result column="ground" jdbcType="VARCHAR" property="ground"/>
+        <result column="humidity" jdbcType="VARCHAR" property="humidity"/>
+        <result column="temperature" jdbcType="VARCHAR" property="temperature"/>
+        <result column="ph" jdbcType="VARCHAR" property="ph"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, pid, ground, humidity, temperature, ph, create_user, create_time
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from plant.node_zero
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from plant.node_zero
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="cn.lhqs.model.NodeZero">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into plant.node_zero (pid, ground, humidity,
+        temperature, ph, create_user,
+        create_time)
+        values (#{pid,jdbcType=INTEGER}, #{ground,jdbcType=VARCHAR}, #{humidity,jdbcType=VARCHAR},
+        #{temperature,jdbcType=VARCHAR}, #{ph,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="cn.lhqs.model.NodeZero">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into plant.node_zero
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pid != null">
+                pid,
+            </if>
+            <if test="ground != null">
+                ground,
+            </if>
+            <if test="humidity != null">
+                humidity,
+            </if>
+            <if test="temperature != null">
+                temperature,
+            </if>
+            <if test="ph != null">
+                ph,
+            </if>
+            <if test="createUser != null">
+                create_user,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pid != null">
+                #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="ground != null">
+                #{ground,jdbcType=VARCHAR},
+            </if>
+            <if test="humidity != null">
+                #{humidity,jdbcType=VARCHAR},
+            </if>
+            <if test="temperature != null">
+                #{temperature,jdbcType=VARCHAR},
+            </if>
+            <if test="ph != null">
+                #{ph,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+                #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.lhqs.model.NodeZero">
+        update plant.node_zero
+        <set>
+            <if test="pid != null">
+                pid = #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="ground != null">
+                ground = #{ground,jdbcType=VARCHAR},
+            </if>
+            <if test="humidity != null">
+                humidity = #{humidity,jdbcType=VARCHAR},
+            </if>
+            <if test="temperature != null">
+                temperature = #{temperature,jdbcType=VARCHAR},
+            </if>
+            <if test="ph != null">
+                ph = #{ph,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.lhqs.model.NodeZero">
+    update plant.node_zero
+    set pid = #{pid,jdbcType=INTEGER},
+      ground = #{ground,jdbcType=VARCHAR},
+      humidity = #{humidity,jdbcType=VARCHAR},
+      temperature = #{temperature,jdbcType=VARCHAR},
+      ph = #{ph,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <select id="selectNumByNodeZero" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        FROM
+        plant.node_zero
+        where
+        ground is not null and humidity is not null
+        ORDER BY
+        create_time DESC
+        LIMIT #{num,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectNumByNodeOne" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        FROM
+        plant.node_one
+        where
+        ground is not null and humidity is not null and temperature is not null and ph is not null
+        ORDER BY
+        create_time DESC
+        LIMIT #{num,jdbcType=INTEGER}
+    </select>
+
+    <!--<select id="selectNumByNodeTwo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        FROM
+        plant.node_one
+        where
+        ground is not null and humidity is not null and temperature is not null and ph is not null
+        ORDER BY
+        create_time DESC
+        LIMIT #{num,jdbcType=INTEGER}
+    </select>-->
+    <select id="selectNumByNodeThree" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        FROM
+        plant.node_three
+        where
+        ground is not null and humidity is not null and temperature is not null and ph is not null
+        ORDER BY
+        create_time DESC
+        LIMIT #{num,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectDataForNodeOne" parameterType="cn.lhqs.model.NodeZero" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        FROM
+        plant.node_one
+        where
+        ground is not null and humidity is not null and temperature is not null and ph is not null
+        and create_time <![CDATA[ >= ]]> #{startDatetime}
+        and create_time <![CDATA[ <= ]]> #{endDatetime}
+    </select>
+
+    <select id="selectDataForNodeTwo" parameterType="cn.lhqs.model.NodeZero" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        FROM
+        plant.node_zero
+        where
+        ground is not null and humidity is not null and temperature is not null and ph is not null
+        and create_time <![CDATA[ >= ]]> #{startDatetime}
+        and create_time <![CDATA[ <= ]]> #{endDatetime}
+    </select>
+
+    <select id="selectDataForNodeThree" parameterType="cn.lhqs.model.NodeZero" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        FROM
+        plant.node_three
+        where
+        ground is not null and humidity is not null and temperature is not null and ph is not null
+        and create_time <![CDATA[ >= ]]> #{startDatetime}
+        and create_time <![CDATA[ <= ]]> #{endDatetime}
+    </select>
+</mapper>

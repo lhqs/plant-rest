@@ -6,7 +6,10 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * 通用工具类
+ * author : lhqs
+ * description : 通用工具类
+ * createTime : 2018-01-08 18:54
+ * version : 1.0
  */
 public class CommonUtil {
 

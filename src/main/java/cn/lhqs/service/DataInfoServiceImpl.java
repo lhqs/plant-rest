@@ -8,6 +8,12 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 
+/**
+ * author : lhqs
+ * description : 数据获取实现类
+ * createTime : 2017-12-19 19:15
+ * version : 1.0
+ */
 @Service
 public class DataInfoServiceImpl implements DataInfoService {
 
@@ -24,5 +30,10 @@ public class DataInfoServiceImpl implements DataInfoService {
 
     public List<DataInfo> getDataInfoForNum() {
         return dataInfoMapper.getDataInfoForNum();
+    }
+
+    @Override
+    public DataInfo getRealDataForOne() {
+        return dataInfoMapper.getRealData();
     }
 }

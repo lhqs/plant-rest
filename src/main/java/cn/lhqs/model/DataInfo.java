@@ -3,9 +3,7 @@ package cn.lhqs.model;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * @author 
- */
+
 public class DataInfo implements Serializable {
     /**
      * 源数据id
@@ -15,19 +13,19 @@ public class DataInfo implements Serializable {
     /**
      * 空气湿度
      */
-    private Integer humidity;
+    private double humidity;
 
     /**
      * 空气温度
      */
-    private Integer temperature;
+    private double temperature;
 
     /**
      * 光照强度
      */
-    private Integer illumination;
+    private double illumination;
 
-    private String carbon;
+    private double carbon;
 
     /**
      * 创建时间
@@ -49,35 +47,35 @@ public class DataInfo implements Serializable {
         this.id = id;
     }
 
-    public Integer getHumidity() {
+    public double getHumidity() {
         return humidity;
     }
 
-    public void setHumidity(Integer humidity) {
+    public void setHumidity(double humidity) {
         this.humidity = humidity;
     }
 
-    public Integer getTemperature() {
+    public double getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(Integer temperature) {
+    public void setTemperature(double temperature) {
         this.temperature = temperature;
     }
 
-    public Integer getIllumination() {
+    public double getIllumination() {
         return illumination;
     }
 
-    public void setIllumination(Integer illumination) {
+    public void setIllumination(double illumination) {
         this.illumination = illumination;
     }
 
-    public String getCarbon() {
+    public double getCarbon() {
         return carbon;
     }
 
-    public void setCarbon(String carbon) {
+    public void setCarbon(double carbon) {
         this.carbon = carbon;
     }
 

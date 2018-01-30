@@ -16,10 +16,21 @@
     <context:component-scan base-package="cn.lhqs.controller">
         <!--<context:exclude-filter type="annotation"  expression="org.springframework.stereotype.Service"/>-->
     </context:component-scan>
-    
+
+    <!-- 加载配置文件 -->
+    <context:property-placeholder location="classpath:config.properties" />
+
+    <!--注意：此配置出现异常-->
+    <!--<bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver" />-->
+    <!--文件上传配置-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="maxUploadSize" value="104857600"/>
+        <property name="maxInMemorySize" value="4096"/>
+    </bean>
 
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" lazy-init="false"/>
-
+    <!--<bean class="cn.lhqs.common.CorsConfigurerAdapter"/>-->
 
     <!-- 视图解析器 -->
     <bean id="viewResolver"
@@ -27,5 +38,27 @@
         <property name="prefix" value="/"/>
         <property name="suffix" value=".jsp"></property>
     </bean>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/test/test.do"/>
+            <!-- 对特定的请求进行拦截 -->
+            <bean class="cn.lhqs.controller.AuthInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/api/*"/>
+            <mvc:exclude-mapping path="/api/user/getUserInfo"/>
+            <mvc:exclude-mapping path="/api/getAllMembership"/>
+            <!--登录请求拦截器-->
+            <bean class="cn.lhqs.controller.LoginInterceptor"/>
+        </mvc:interceptor>
+        <!--<mvc:interceptor>
+            <mvc:mapping path="/*" />
+            <mvc:mapping path="/api/*" />
+            <mvc:mapping path="/*/*.html" />
+            <mvc:mapping path="/*.html" />
+            <bean class="cn.lhqs.controller.ProcessInterceptor"/>
+        </mvc:interceptor>-->
+    </mvc:interceptors>
 
 </beans>

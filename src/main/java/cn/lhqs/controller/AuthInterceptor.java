@@ -11,16 +11,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 权限拦截器.
+ * author : lhqs
+ * description : 限拦截器（传感器节点）.
+ * createTime : 2018-01-04 10:09
+ * version : 1.0
  */
 @Component("authInterceptor")
 public class AuthInterceptor implements HandlerInterceptor {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object
+    public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse response, Object
             o) throws Exception {
         logger.debug("对请求进行权限验证");
+        // todo
 
         return true;
     }
