@@ -89,7 +89,7 @@ public class SigarUtil {
     }
 
     public static Map<String, String> getHardwareInfo() throws SigarException {
-        Map<String, String> info = new HashMap<String, String>();
+        Map<String, String> info = new LinkedHashMap<>();
         Sigar sigar = new Sigar();
         Mem mem = sigar.getMem();
         Swap swap = sigar.getSwap();
@@ -151,6 +151,16 @@ public class SigarUtil {
         info.put("网卡描述信息", cfg.getDescription());
         info.put("网卡类型", cfg.getType());
         return info;
+    }
+
+
+    // 临时测试
+    public static void main(String[] args) throws SigarException {
+        final Map<String, String> hardwareInfo = getHardwareInfo();
+        Set<Map.Entry<String, String>> entries = hardwareInfo.entrySet();
+        for(Map.Entry<String,String> maps : entries){
+            System.out.println(maps.getKey() + " --- "+maps.getValue());
+        }
     }
 
 }
